@@ -40,7 +40,7 @@ os.mkdir(info_path)
 
 
 def scrape_home():
-    nav_home = soup.find('ul', {'class': 'nav'}).find_all('a')[1:3]
+    nav_home = soup.find('ul', {'class': 'nav'}).find_all('a')[1:51]
     for categories in nav_home:
         # Get category name
         category_name = (categories.text.strip())
@@ -78,7 +78,7 @@ def scrape_category(cat_links, category_name):
                         response = requests.get(book_url)
                         soup = BeautifulSoup(response.content, 'html.parser')
                         # Get title
-                        title = soup.find('h1').get_text()
+                        title = soup.find('h1').get_text().replace('/', '')
                         # Get data
                         table_lines = soup.findAll('td')
                         upc = table_lines[0]
@@ -87,7 +87,8 @@ def scrape_category(cat_links, category_name):
                         availability = table_lines[5]
                         # Get description
                         if soup.find('div', {'id': 'product_description'}):
-                            description = soup.find('div', {'id': 'product_description'}).find_next('p')
+                            raw_description = soup.find('div', {'id': 'product_description'}).find_next('p')
+                            description = raw_description.get_text()
                         else:
                             description = "No description found"
                         # Get category
@@ -102,7 +103,7 @@ def scrape_category(cat_links, category_name):
                         # Return of value for csv purpose
                         return(title, rating + ' stars', upc.get_text(), taxed_price.get_text(),
                                untaxed_price.get_text(), availability.get_text(), category.get_text(),
-                               description.get_text(), book_url, pic)
+                               description, book_url, pic)
                 # Add value to csv
                 data_solo = scrape_book(book_solo_link)
                 writer.writerow(data_solo)
@@ -137,7 +138,7 @@ def scrape_category(cat_links, category_name):
                             response = requests.get(book_url)
                             soup = BeautifulSoup(response.content, 'html.parser')
                             # Get title
-                            title = soup.find('h1').get_text()
+                            title = soup.find('h1').get_text().replace('/', '')
                             # Get data
                             table_lines = soup.findAll('td')
                             upc = table_lines[0]
@@ -146,7 +147,8 @@ def scrape_category(cat_links, category_name):
                             availability = table_lines[5]
                             # Get description
                             if soup.find('div', {'id': 'product_description'}):
-                                description = soup.find('div', {'id': 'product_description'}).find_next('p')
+                                raw_description = soup.find('div', {'id': 'product_description'}).find_next('p')
+                                description = raw_description.get_text()
                             else:
                                 description = "No description found"
                             # Get category
@@ -161,7 +163,7 @@ def scrape_category(cat_links, category_name):
                             # Return the value
                             return(title, rating + ' stars', upc.get_text(), taxed_price.get_text(),
                                    untaxed_price.get_text(), availability.get_text(), category.get_text(),
-                                   description.get_text(), book_url, pic)
+                                   description, book_url, pic)
                     data_multi = scrape_book(book_multi_link)
                     writer.writerow(data_multi)
 
