@@ -23,7 +23,7 @@ d1 = today.strftime('%d_%m_%y')
 
 # Creation of directory
 main_dir = d1 + '_Books'
-parent_dir = '../Documents'
+parent_dir = '../../../Documents'
 path = os.path.join(parent_dir, main_dir)
 os.mkdir(path)
 
