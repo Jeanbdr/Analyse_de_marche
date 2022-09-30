@@ -1,4 +1,8 @@
 .DS_Store
+#Dossier, csv et images 
 /*_Books
 *.csv
 *.jpg
+#Environnement virtuel
+/env
+/venv
