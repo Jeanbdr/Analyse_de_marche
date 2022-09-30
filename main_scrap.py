@@ -12,7 +12,6 @@ url = 'http://books.toscrape.com/index.html'
 response = requests.get(url)
 soup = BeautifulSoup(response.content, 'html.parser')
 
-
 # List of header for csv
 header = [
     "title",
