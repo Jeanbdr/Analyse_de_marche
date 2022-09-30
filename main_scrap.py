@@ -40,7 +40,7 @@ os.mkdir(info_path)
 
 
 def scrape_home():
-    nav_home = soup.find('ul', {'class': 'nav'}).find_all('a')[1:51]
+    nav_home = soup.find('ul', {'class': 'nav'}).find_all('a')[1:]
     for categories in nav_home:
         # Get category name
         category_name = (categories.text.strip())
@@ -68,8 +68,7 @@ def scrape_category(cat_links, category_name):
             writer.writerow(header)
             # Looking for content in category with one page
             for h3 in page_content:
-                raw_links = h3.find('a')['href']#.replace('../', '')
-                #book_solo_link = 'http://books.toscrape.com/catalogue/' + raw_links
+                raw_links = h3.find('a')['href']
                 book_solo_link = urljoin(cat_links, raw_links)
                 for link in book_solo_link:
                     def scrape_book(book_solo_link):
@@ -79,7 +78,7 @@ def scrape_category(cat_links, category_name):
                         response = requests.get(book_url)
                         soup = BeautifulSoup(response.content, 'html.parser')
                         # Get title
-                        title = soup.find('h1').get_text().replace('/', '')
+                        title = soup.find('h1').get_text()
                         # Get data
                         table_lines = soup.findAll('td')
                         upc = table_lines[0]
@@ -97,7 +96,7 @@ def scrape_category(cat_links, category_name):
                         # Get image and put them in a directory
                         picture = soup.find("img").get('src').replace('../', '')
                         pic = "http://books.toscrape.com/" + picture
-                        filename = os.path.join(img_path, title + '.jpg')
+                        filename = os.path.join(img_path, title.replace('/', '') + '.jpg')
                         image1 = urllib.request.urlretrieve(pic, filename)
                         # Get rating
                         rating = soup.find('p', class_='star-rating').get("class")[1]
@@ -139,7 +138,7 @@ def scrape_category(cat_links, category_name):
                             response = requests.get(book_url)
                             soup = BeautifulSoup(response.content, 'html.parser')
                             # Get title
-                            title = soup.find('h1').get_text().replace('/', '')
+                            title = soup.find('h1').get_text()
                             # Get data
                             table_lines = soup.findAll('td')
                             upc = table_lines[0]
@@ -157,7 +156,7 @@ def scrape_category(cat_links, category_name):
                             # Get image
                             picture = soup.find("img").get('src').replace('../', '')
                             pic = "http://books.toscrape.com/" + picture
-                            filename = os.path.join(img_path, title + '.jpg')
+                            filename = os.path.join(img_path, title.replace('/', '') + '.jpg')
                             image1 = urllib.request.urlretrieve(pic, filename)
                             # Get rating
                             rating = soup.find('p', class_='star-rating').get("class")[1]
