@@ -68,8 +68,9 @@ def scrape_category(cat_links, category_name):
             writer.writerow(header)
             # Looking for content in category with one page
             for h3 in page_content:
-                raw_links = h3.find('a')['href'].replace('../', '')
-                book_solo_link = 'http://books.toscrape.com/catalogue/' + raw_links
+                raw_links = h3.find('a')['href']#.replace('../', '')
+                #book_solo_link = 'http://books.toscrape.com/catalogue/' + raw_links
+                book_solo_link = urljoin(cat_links, raw_links)
                 for link in book_solo_link:
                     def scrape_book(book_solo_link):
                         # Get a book url
