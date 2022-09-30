@@ -17,7 +17,7 @@ soup = BeautifulSoup(response.content, 'html.parser')
 header = [
     "title",
     "review_rating",
-    "universal_product_code (upc)",
+    "universal_product_codes",
     "price_including_tax",
     "price_excluding_tax",
     "number_available",
