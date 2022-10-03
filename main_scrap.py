@@ -68,7 +68,7 @@ def scrape_category(category_link, category_name):
     total_page = int(str(next_page).split()[5]) if next_page else 1
     # Creation of csv (+add path)
     table_name = os.path.join(info_path, f"{category_name}.csv")
-    with open(table_name, "a", encoding="UTF8") as f:
+    with open(table_name, "w", encoding="UTF8") as f:
         writer = csv.writer(f)
         writer.writerow(header)
         # Read into different page to get all links
