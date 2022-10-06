@@ -83,6 +83,8 @@ def scrape_category(category_link, category_name):
             for h3 in book_titles:
                 book_link = urljoin(category_link, h3.find("a")["href"])
                 book_data = scrape_book(book_link)
+                filename = os.path.join(img_path, book_data[0].replace("/", "") + ".jpg")
+                urllib.request.urlretrieve(book_data[-1], filename)
                 writer.writerow(book_data)
 
 
@@ -107,10 +109,8 @@ def scrape_book(book_link):
     # Get category
     category = soup.find("ul", class_="breadcrumb").find_all("a")[-1]
     # Get image and put them in a directory
-    picture = soup.find("img").get("src").replace("../", "")
-    pic = urljoin("http://books.toscrape.com/", picture)
-    filename = os.path.join(img_path, title.replace("/", "") + ".jpg")
-    image1 = urllib.request.urlretrieve(pic, filename)
+    img_src = soup.find("img").get("src")
+    img_url = urljoin(book_link, img_src)
     # Get rating
     rating = soup.find("p", class_="star-rating").get("class")[1]
     # Return of value for csv purpose
@@ -124,7 +124,7 @@ def scrape_book(book_link):
         category.get_text(),
         description,
         book_link,
-        pic,
+        img_url,
     )
 
 
