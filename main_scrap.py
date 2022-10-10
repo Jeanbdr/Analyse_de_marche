@@ -108,7 +108,7 @@ def scrape_book(book_link):
         description = "No description found"
     # Get category
     category = soup.find("ul", class_="breadcrumb").find_all("a")[-1]
-    # Get image and put them in a directory
+    # Get image
     img_src = soup.find("img").get("src")
     img_url = urljoin(book_link, img_src)
     # Get rating
